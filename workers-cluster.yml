@@ -1,4 +1,4 @@
-- hosts: Kubernetes_Master
+- hosts: kubernetes-master
   become: yes
   gather_facts: false
   tasks:
@@ -12,7 +12,9 @@
        JOIN_COMMAND: " {{ join_command_raw.stdout }}"
 
 
-- hosts: Kubernetes_Worker
+- hosts:
+    - kubernetes-node1
+    - kubernetes-node2
   become: yes
   tasks:
     - name: join cluster
