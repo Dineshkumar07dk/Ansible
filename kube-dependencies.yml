@@ -1,4 +1,7 @@
-- hosts: Kubernetes_Servers
+- hosts:
+   - kubernetes-master
+   - kubernetes-node1
+   - kubernetes-node2
   become: yes
   tasks:
    - name: Docker Installation
