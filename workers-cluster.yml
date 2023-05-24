@@ -19,7 +19,8 @@
   become: yes
   tasks:
     - name: Join cluster
-      shell: "{{ hostvars['DUMMY_HOST']['JOIN_COMMAND'] }} --ignore-preflight-errors=FileAvailable--etc-kubernetes-kubelet.conf,Port-10250,FileAvailable--etc-kubernetes-pki-ca.crt >> node_joined.txt"
+      shell: "{{ hostvars['DUMMY_HOST']['JOIN_COMMAND'] }} >> node_joined.txt"
+      ignore_errors: yes
       args:
         chdir: $HOME
       register: join_output
