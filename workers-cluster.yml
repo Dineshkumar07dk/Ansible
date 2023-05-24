@@ -2,23 +2,25 @@
   become: yes
   gather_facts: false
   tasks:
-    - name: get join command
+    - name: Get join command
       shell: kubeadm token create --print-join-command
       register: join_command_raw
 
-    - name: Register dummy host with variable It Access In Next Play
+    - name: Register dummy host with join command variable
       add_host:
-       name: "DUMMY_HOST"
-       JOIN_COMMAND: " {{ join_command_raw.stdout }}"
-
+        name: "DUMMY_HOST"
+        JOIN_COMMAND: "{{ join_command_raw.stdout }}"
+      vars:
+        ansible_connection: local
 
 - hosts:
     - kubernetes-node1
     - kubernetes-node2
   become: yes
   tasks:
-    - name: join cluster
+    - name: Join cluster
       shell: "{{ hostvars['DUMMY_HOST']['JOIN_COMMAND'] }} >> node_joined.txt"
       args:
         chdir: $HOME
-        creates: node_joined.txt
+      register: join_output
+      changed_when: join_output.stdout != ""
