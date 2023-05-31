@@ -3,5 +3,5 @@
   import_playbook: kube-dependencies.yml
 - name: Initialaize Kubernetes Master
   import_playbook: master-cluster.yml
-- name: Get token from master and join workers
+- name: Getting token from master and join workers
   import_playbook: workers-cluster.yml
